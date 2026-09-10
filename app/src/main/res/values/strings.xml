@@ -1,0 +1,94 @@
+<resources>
+    <string name="app_name">Co Za Bazgroł</string>
+    <string name="app_subtitle">Gra towarzyska w rysowany telefon</string>
+    
+    <!-- Main Menu -->
+    <string name="main_menu_new_game">Nowa gra</string>
+    <string name="main_menu_how_to_play">Jak grać? (Zasady)</string>
+    <string name="main_menu_timing_settings">Ustawienia czasu</string>
+    <string name="main_menu_quick_info">3+ graczy • 1 telefon • mnóstwo śmiechu</string>
+    <string name="timing_preview_chip">Rysowanie: %1$ds • Podgląd: %2$ds</string>
+    
+    <!-- Rules -->
+    <string name="rules_title">Zasady gry</string>
+    <string name="rules_close">Wszystko jasne!</string>
+    <string name="rule_1_title">1. Tajne hasło</string>
+    <string name="rule_1_desc">Pierwszy gracz otrzymuje wylosowane słowo i rysuje je na ekranie przed upływem czasu.</string>
+    <string name="rule_2_title">2. Szybki podgląd</string>
+    <string name="rule_2_desc">Kolejny gracz ma tylko kilka sekund na zapamiętanie rysunku poprzednika.</string>
+    <string name="rule_3_title">3. Rysuj z pamięci</string>
+    <string name="rule_3_desc">Podgląd znika! Gracz przerysowuje to, co zapamiętał. Telefon wędruje dalej.</string>
+    <string name="rule_4_title">4. Wielki finał i zgadywanie</string>
+    <string name="rule_4_desc">Ostatni gracz nie rysuje, lecz zgaduje oryginalne hasło na podstawie ostatniego rysunku!</string>
+    <string name="rule_5_title">5. Ewolucja bazgrołów</string>
+    <string name="rule_5_desc">W podsumowaniu wszyscy oglądają przezabawną przemianę rysunku krok po kroku!</string>
+
+    <!-- Player Setup -->
+    <string name="player_setup_title">Ustawienia graczy</string>
+    <string name="player_name_label">Imię gracza</string>
+    <string name="add_player_description">Dodaj gracza</string>
+    <string name="remove_player_description">Usuń gracza</string>
+    <string name="start_game_button">Rozpocznij grę</string>
+    <string name="min_players_hint">Dodaj co najmniej 3 graczy, aby rozpocząć zabawę</string>
+    <string name="player_count_label">Liczba graczy: %1$d (min. 3)</string>
+    <string name="role_first_drawer">Pierwszy rysownik</string>
+    <string name="role_redrawer">Przerysowujący</string>
+    <string name="role_guesser">Zgadujący</string>
+
+    <!-- Timing Settings -->
+    <string name="timing_settings_title">Konfiguracja czasu</string>
+    <string name="draw_time_label">Czas na rysowanie:</string>
+    <string name="peek_time_label">Czas na podgląd rysunku:</string>
+    <string name="seconds_format">%1$d s</string>
+    <string name="save_timing_button">Zapisz ustawienia</string>
+
+    <!-- Game Screen -->
+    <string name="game_title">Co Za Bazgroł</string>
+    <string name="clear_canvas_button">Wyczyść</string>
+    <string name="undo_button">Cofnij</string>
+    <string name="next_turn_button">Dalej</string>
+    <string name="finish_turn_button">Zakończ turę</string>
+    <string name="time_left_label">Pozostało: %1$d s</string>
+    <string name="current_player_label">Kolej na gracza: %1$s</string>
+    <string name="times_up_label">Czas minął! Przejdź dalej</string>
+    <string name="draw_this_word">Narysuj: %1$s</string>
+    <string name="draw_this_drawing">Przerysuj ten obrazek</string>
+    <string name="peek_title">Zapamiętaj rysunek!</string>
+    <string name="draw_from_memory">Rysuj z pamięci!</string>
+    <string name="redraw_from_memory">Przerysuj z pamięci!</string>
+    <string name="your_secret_word">Twoje hasło: %1$s</string>
+    <string name="stroke_thin">Cienka</string>
+    <string name="stroke_medium">Średnia</string>
+    <string name="stroke_thick">Gruba</string>
+
+    <!-- Pass Phone Screen -->
+    <string name="pass_phone_title">Przekaż telefon</string>
+    <string name="pass_phone_message">Oddaj telefon graczowi:</string>
+    <string name="ready_button">Jestem gotowy!</string>
+    <string name="no_peeking_warning">Nie podglądaj ekranu przed swoją kolejką!</string>
+
+    <!-- Guess Screen -->
+    <string name="guess_screen_title">Zgadnij co to było!</string>
+    <string name="guess_screen_subtitle">Obejrzyj ostatni rysunek i odgadnij pierwotne hasło</string>
+    <string name="guess_label">Twoje przypuszczenie</string>
+    <string name="see_summary_button">Zobacz podsumowanie gry</string>
+
+    <!-- Summary & Recap -->
+    <string name="summary_screen_title">Ewolucja Bazgrołów!</string>
+    <string name="summary_subtitle">Zobacz jak zniekształciło się hasło w trakcie gry</string>
+    <string name="original_word_label">Hasło startowe</string>
+    <string name="final_guess_label">Ostateczny strzał</string>
+    <string name="guessed_by_label">Zgadujący: %1$s</string>
+    <string name="verdict_success">Trafione w dziesiątkę! Brawo!</string>
+    <string name="verdict_close">Głuchy telefon zadziałał wyśmienicie!</string>
+    <string name="recap_tab_story">Krok po kroku</string>
+    <string name="recap_tab_gallery">Wszystkie rysunki</string>
+    <string name="step_indicator">Krok %1$d z %2$d</string>
+    <string name="step_first_drawer">%1$s otrzymał(a) hasło \"%2$s\" i narysował(a):</string>
+    <string name="step_redrawer">%1$s zobaczył(a) poprzedni szkic i narysował(a):</string>
+    <string name="step_guesser">%1$s zobaczył(a) ostatni rysunek i zgadł(a):</string>
+    <string name="next_step">Następny krok</string>
+    <string name="prev_step">Poprzedni krok</string>
+    <string name="play_again_button">Zagraj ponownie</string>
+    <string name="main_menu_button">Menu główne</string>
+</resources>
