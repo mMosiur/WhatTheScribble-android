@@ -1,5 +1,6 @@
 package com.mmosiur.whatthescribble.ui
 
+import android.content.Context
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateListOf
@@ -7,7 +8,10 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
+import com.mmosiur.whatthescribble.data.SharedPreferencesTimingPreferencesRepository
+import com.mmosiur.whatthescribble.data.TimingPreferencesRepository
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -21,7 +25,8 @@ data class DrawnPoint(
 data class Line(
     val points: List<DrawnPoint>,
     val color: Color = Color.Black,
-    val strokeWidth: Float = 5f
+    val strokeWidth: Float = 5f,
+    val isEraser: Boolean = false
 )
 
 data class GameTurn(
@@ -32,7 +37,14 @@ data class GameTurn(
     val canvasHeight: Float = 0f
 )
 
-class GameViewModel : ViewModel() {
+enum class WordMode {
+    RANDOM,
+    CUSTOM
+}
+
+class GameViewModel(
+    private val preferencesRepository: TimingPreferencesRepository? = null
+) : ViewModel() {
     private val polishWords = listOf(
         "Kot", "Pies", "Dom", "Drzewo", "Słońce", "Auto", "Kwiatek", "Ryba", "Ptak", "Jabłko",
         "Banan", "Rower", "Książka", "Telefon", "Komputer", "Okno", "Drzwi", "Krzesło", "Stół", "Łóżko",
@@ -49,16 +61,20 @@ class GameViewModel : ViewModel() {
     val turns: List<GameTurn> = _turns
 
     // Configurable timing in seconds
-    private val _drawDuration = mutableIntStateOf(60)
+    private val _drawDuration = mutableIntStateOf(
+        preferencesRepository?.getDrawDuration(DEFAULT_DRAW_DURATION) ?: DEFAULT_DRAW_DURATION
+    )
     val drawDuration: State<Int> = _drawDuration
 
-    private val _peekDuration = mutableIntStateOf(10)
+    private val _peekDuration = mutableIntStateOf(
+        preferencesRepository?.getPeekDuration(DEFAULT_PEEK_DURATION) ?: DEFAULT_PEEK_DURATION
+    )
     val peekDuration: State<Int> = _peekDuration
 
-    private val _timeLeft = mutableIntStateOf(60)
+    private val _timeLeft = mutableIntStateOf(_drawDuration.intValue)
     val timeLeft: State<Int> = _timeLeft
 
-    private val _peekTimeLeft = mutableIntStateOf(10)
+    private val _peekTimeLeft = mutableIntStateOf(_peekDuration.intValue)
     val peekTimeLeft: State<Int> = _peekTimeLeft
 
     private val _isPeeking = mutableStateOf(false)
@@ -76,17 +92,77 @@ class GameViewModel : ViewModel() {
     private val _currentWord = mutableStateOf("")
     val currentWord: State<String> = _currentWord
 
+    private val _wordMode = mutableStateOf(WordMode.RANDOM)
+    val wordMode: State<WordMode> = _wordMode
+
+    private val _customWordInput = mutableStateOf("")
+    val customWordInput: State<String> = _customWordInput
+
     private val _finalGuess = mutableStateOf("")
     val finalGuess: State<String> = _finalGuess
 
     private var timerJob: Job? = null
 
+    companion object {
+        const val DEFAULT_DRAW_DURATION = 60
+        const val DEFAULT_PEEK_DURATION = 10
+        const val MAX_WORD_LENGTH = 30
+        const val DEFAULT_ERASER_STROKE_WIDTH = 80f
+
+        /**
+         * Sanitizes word input to allow only letters, digits, spaces, hyphens, and apostrophes.
+         * Restricts emojis, surrogate pairs, symbols, and caps length to MAX_WORD_LENGTH.
+         */
+        fun sanitizeWord(input: String): String {
+            return input.filter { char ->
+                char.isLetter() || char.isDigit() || char == ' ' || char == '-' || char == '\''
+            }.take(MAX_WORD_LENGTH)
+        }
+    }
+
+    fun setWordMode(mode: WordMode) {
+        _wordMode.value = mode
+    }
+
+    fun setCustomWordInput(word: String) {
+        _customWordInput.value = sanitizeWord(word)
+    }
+
+    fun rollRandomWord(): String {
+        val word = polishWords.random()
+        _currentWord.value = word
+        return word
+    }
+
+    fun setCurrentWord(word: String) {
+        val sanitized = sanitizeWord(word).trim()
+        if (sanitized.isNotBlank()) {
+            _currentWord.value = sanitized
+        }
+    }
+
     fun setDrawDuration(seconds: Int) {
-        _drawDuration.intValue = seconds.coerceIn(15, 300)
+        val coerced = seconds.coerceIn(
+            SharedPreferencesTimingPreferencesRepository.MIN_DRAW_DURATION,
+            SharedPreferencesTimingPreferencesRepository.MAX_DRAW_DURATION
+        )
+        _drawDuration.intValue = coerced
+        if (!_isTurnActive.value && !_isPeeking.value) {
+            _timeLeft.intValue = coerced
+        }
+        preferencesRepository?.saveDrawDuration(coerced)
     }
 
     fun setPeekDuration(seconds: Int) {
-        _peekDuration.intValue = seconds.coerceIn(3, 60)
+        val coerced = seconds.coerceIn(
+            SharedPreferencesTimingPreferencesRepository.MIN_PEEK_DURATION,
+            SharedPreferencesTimingPreferencesRepository.MAX_PEEK_DURATION
+        )
+        _peekDuration.intValue = coerced
+        if (!_isTurnActive.value && !_isPeeking.value) {
+            _peekTimeLeft.intValue = coerced
+        }
+        preferencesRepository?.savePeekDuration(coerced)
     }
 
     fun addPlayer(name: String) {
@@ -100,11 +176,17 @@ class GameViewModel : ViewModel() {
         _players.remove(name)
     }
 
-    fun startGame() {
+    fun startGame(customWord: String? = null) {
         _turns.clear()
         _finalGuess.value = ""
         _currentPlayerIndex.intValue = 0
-        _currentWord.value = polishWords.random()
+        val wordToUse = customWord?.let { sanitizeWord(it).trim().ifBlank { null } }
+            ?: if (_wordMode.value == WordMode.CUSTOM && _customWordInput.value.isNotBlank()) {
+                sanitizeWord(_customWordInput.value).trim()
+            } else {
+                polishWords.random()
+            }
+        _currentWord.value = wordToUse
         _lines.clear()
         _timeLeft.intValue = _drawDuration.intValue
         _peekTimeLeft.intValue = _peekDuration.intValue
@@ -217,5 +299,15 @@ class GameViewModel : ViewModel() {
 
     override fun onCleared() {
         timerJob?.cancel()
+    }
+
+    class Factory(
+        private val context: Context,
+        private val repository: TimingPreferencesRepository = SharedPreferencesTimingPreferencesRepository.create(context)
+    ) : ViewModelProvider.Factory {
+        @Suppress("UNCHECKED_CAST")
+        override fun <T : ViewModel> create(modelClass: Class<T>): T {
+            return GameViewModel(repository) as T
+        }
     }
 }

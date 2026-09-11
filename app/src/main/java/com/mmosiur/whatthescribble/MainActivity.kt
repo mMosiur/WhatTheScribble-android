@@ -4,10 +4,9 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.runtime.mutableStateListOf
-import androidx.compose.runtime.remember
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation3.runtime.NavEntry
+import androidx.navigation3.runtime.rememberNavBackStack
 import androidx.navigation3.ui.NavDisplay
 import com.mmosiur.whatthescribble.navigation.AppNavKey
 import com.mmosiur.whatthescribble.ui.*
@@ -19,8 +18,10 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             WhatTheScribbleTheme {
-                val backStack = remember { mutableStateListOf<AppNavKey>(AppNavKey.MainMenu) }
-                val gameViewModel: GameViewModel = viewModel()
+                val backStack = rememberNavBackStack(AppNavKey.MainMenu)
+                val gameViewModel: GameViewModel = viewModel(
+                    factory = GameViewModel.Factory(applicationContext)
+                )
 
                 NavDisplay(
                     backStack = backStack,
@@ -105,6 +106,7 @@ class MainActivity : ComponentActivity() {
                                     }
                                 )
                             }
+                            else -> error("Unknown navigation key: $key")
                         }
                     }
                 )

@@ -6,7 +6,6 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
@@ -18,6 +17,7 @@ import androidx.compose.material.icons.automirrored.rounded.ArrowForward
 import androidx.compose.material.icons.rounded.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -33,10 +33,10 @@ import com.mmosiur.whatthescribble.ui.theme.WhatTheScribbleTheme
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SummaryScreen(
+    modifier: Modifier = Modifier,
     viewModel: GameViewModel,
     onRestart: () -> Unit,
-    onMainMenu: () -> Unit = onRestart,
-    modifier: Modifier = Modifier
+    onMainMenu: () -> Unit = onRestart
 ) {
     val turns = viewModel.turns
     val originalWord by viewModel.currentWord
@@ -44,9 +44,9 @@ fun SummaryScreen(
     val guesserName = viewModel.players.lastOrNull() ?: ""
     val isMatch = originalWord.trim().equals(finalGuess.trim(), ignoreCase = true)
 
-    var selectedTab by remember { mutableIntStateOf(0) } // 0: Story (krok po kroku), 1: Gallery (wszystkie)
+    var selectedTab by rememberSaveable { mutableIntStateOf(0) } // 0: Story (krok po kroku), 1: Gallery (wszystkie)
     val totalStorySteps = turns.size + 1
-    var currentStoryStep by remember { mutableIntStateOf(0) }
+    var currentStoryStep by rememberSaveable { mutableIntStateOf(0) }
 
     BackHandler(enabled = true) {
         onMainMenu()

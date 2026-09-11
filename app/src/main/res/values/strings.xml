@@ -35,6 +35,18 @@
     <string name="role_redrawer">Przerysowujący</string>
     <string name="role_guesser">Zgadujący</string>
 
+    <!-- Word Setup -->
+    <string name="word_settings_title">Hasło do narysowania</string>
+    <string name="word_mode_random">Losowe</string>
+    <string name="word_mode_custom">Własne</string>
+    <string name="custom_word_field_label">Twoje hasło do narysowania</string>
+    <string name="custom_word_hint">Wymyśl słowo lub wylosuj hasło z bazy</string>
+    <string name="edit_word_button">Zmień hasło</string>
+    <string name="reroll_word_button">Wylosuj inne</string>
+    <string name="save_word_button">Zapisz</string>
+    <string name="first_player_word_prompt">Twoje hasło do narysowania:</string>
+    <string name="enter_your_own_word_prompt">Wymyśl własne hasło lub wylosuj:</string>
+
     <!-- Timing Settings -->
     <string name="timing_settings_title">Konfiguracja czasu</string>
     <string name="draw_time_label">Czas na rysowanie:</string>
@@ -60,6 +72,7 @@
     <string name="stroke_thin">Cienka</string>
     <string name="stroke_medium">Średnia</string>
     <string name="stroke_thick">Gruba</string>
+    <string name="tool_eraser">Gumka</string>
 
     <!-- Pass Phone Screen -->
     <string name="pass_phone_title">Przekaż telefon</string>

@@ -13,7 +13,7 @@ android {
 
     defaultConfig {
         applicationId = "com.mmosiur.whatthescribble"
-        minSdk = 36
+        minSdk = 26
         targetSdk = 37
         versionCode = 1
         versionName = "1.0"
@@ -41,10 +41,6 @@ dependencies {
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.accompanist.permissions)
     implementation(libs.androidx.activity.compose)
-    implementation(libs.androidx.camera.camera2)
-    implementation(libs.androidx.camera.core)
-    implementation(libs.androidx.camera.lifecycle)
-    implementation(libs.androidx.camera.view)
     implementation(libs.androidx.compose.adaptive)
     implementation(libs.androidx.compose.adaptive.layout)
     implementation(libs.androidx.compose.adaptive.navigation3)
@@ -62,8 +58,6 @@ dependencies {
     implementation(libs.androidx.lifecycle.viewmodel.navigation3)
     implementation(libs.androidx.navigation3.runtime)
     implementation(libs.androidx.navigation3.ui)
-    implementation(libs.androidx.room.ktx)
-    implementation(libs.androidx.room.runtime)
     implementation(libs.coil.compose)
     implementation(libs.converter.moshi)
     implementation(libs.kotlinx.coroutines.android)
@@ -73,8 +67,6 @@ dependencies {
     implementation(libs.material)
     implementation(libs.moshi.kotlin)
     implementation(libs.okhttp)
-    implementation(libs.play.services.location)
-    implementation(libs.retrofit)
     testImplementation(libs.androidx.core)
     testImplementation(libs.androidx.junit)
     testImplementation(libs.junit)

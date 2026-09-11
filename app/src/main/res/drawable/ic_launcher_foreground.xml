@@ -5,25 +5,80 @@
     android:viewportWidth="108"
     android:viewportHeight="108">
 
-    <!-- Yellow Scribble Face Outline -->
+    <!-- Sparkle Stars -->
     <path
-        android:strokeColor="#FFD600"
-        android:strokeWidth="5"
+        android:fillColor="#FFD54F"
+        android:pathData="M32,28 C32,32 30,34 26,34 C30,34 32,36 32,40 C32,36 34,34 38,34 C34,34 32,32 32,28 Z" />
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M32,30 C32,32 31,33 29,33 C31,33 32,34 32,36 C32,34 33,33 35,33 C33,33 32,32 32,30 Z" />
+
+    <path
+        android:fillColor="#FFD54F"
+        android:pathData="M78,68 C78,71 76,73 73,73 C76,73 78,75 78,78 C78,75 80,73 83,73 C80,73 78,71 78,68 Z" />
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M78,70 C78,71 77,72 76,72 C77,72 78,73 78,75 C78,73 79,72 80,72 C79,72 78,71 78,70 Z" />
+
+    <!-- Scribble Stroke - Cyan shadow/glow layer -->
+    <path
+        android:strokeColor="#00E5FF"
+        android:strokeWidth="8"
         android:strokeLineCap="round"
         android:strokeLineJoin="round"
-        android:pathData="M54,24 C65,24 84,35 84,54 C84,73 70,84 54,84 C38,84 24,73 24,54 C24,35 43,24 54,24 M54,24 C60,20 75,28 80,40" />
+        android:pathData="M27,72 C25,58 36,46 48,46 C60,46 66,56 61,66 C56,76 40,78 37,64 C35,53 45,42 55,52" />
 
-    <!-- Blue Eyes -->
+    <!-- Scribble Stroke - Main White dynamic core -->
     <path
-        android:fillColor="#00B0FF"
-        android:pathData="M42,48a3,3 0 1,0 6,0a3,3 0 1,0 -6,0 M60,48a3,3 0 1,0 6,0a3,3 0 1,0 -6,0" />
-
-    <!-- Blue Smile -->
-    <path
-        android:strokeColor="#00B0FF"
-        android:strokeWidth="4"
+        android:strokeColor="#FFFFFF"
+        android:strokeWidth="5.5"
         android:strokeLineCap="round"
         android:strokeLineJoin="round"
-        android:pathData="M40,65 C45,75 63,75 68,65" />
+        android:pathData="M27,72 C25,58 36,46 48,46 C60,46 66,56 61,66 C56,76 40,78 37,64 C35,53 45,42 55,52" />
 
+    <!-- Pencil Group (Angled top-right to center) -->
+    <group
+        android:pivotX="68"
+        android:pivotY="42"
+        android:rotation="45">
+
+        <!-- Eraser -->
+        <path
+            android:fillColor="#FF4081"
+            android:pathData="M64,18 h8 a4,4 0 0 1 4,4 v5 h-16 v-5 a4,4 0 0 1 4,-4 z" />
+
+        <!-- Metal Ferrule Band -->
+        <path
+            android:fillColor="#CFD8DC"
+            android:pathData="M64,27 h16 v5 h-16 z" />
+        <path
+            android:fillColor="#90A4AE"
+            android:pathData="M64,29 h16 v1 h-16 z" />
+
+        <!-- Pencil Wooden Body -->
+        <path
+            android:fillColor="#FFA000"
+            android:pathData="M64,32 h6 v28 h-6 z" />
+        <path
+            android:fillColor="#FFCA28"
+            android:pathData="M70,32 h5 v28 h-5 z" />
+        <path
+            android:fillColor="#FFF59D"
+            android:pathData="M75,32 h5 v28 h-5 z" />
+
+        <!-- Sharpened Wood Cone Tip -->
+        <path
+            android:fillColor="#FFE082"
+            android:pathData="M64,60 L72,74 L80,60 Z" />
+
+        <!-- Graphite Lead Tip -->
+        <path
+            android:fillColor="#263238"
+            android:pathData="M69,69 L72,74 L75,69 Z" />
+    </group>
+
+    <!-- Playful small ink dot -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M24,76a3,3 0 1,0 6,0a3,3 0 1,0 -6,0" />
 </vector>

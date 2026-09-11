@@ -12,6 +12,7 @@ import androidx.compose.material.icons.automirrored.rounded.MenuBook
 import androidx.compose.material.icons.rounded.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -31,8 +32,8 @@ fun MainMenuScreen(
     onStartGame: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    var showRulesDialog by remember { mutableStateOf(false) }
-    var showTimingDialog by remember { mutableStateOf(false) }
+    var showRulesDialog by rememberSaveable { mutableStateOf(false) }
+    var showTimingDialog by rememberSaveable { mutableStateOf(false) }
 
     val drawDuration by viewModel.drawDuration
     val peekDuration by viewModel.peekDuration

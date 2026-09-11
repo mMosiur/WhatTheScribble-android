@@ -16,11 +16,13 @@ import androidx.compose.material.icons.automirrored.rounded.Undo
 import androidx.compose.material.icons.rounded.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -51,11 +53,6 @@ fun GameScreen(
     val previousDrawing = viewModel.getPreviousDrawing()
     val avatarColor = PlayerColors.getOrElse(currentPlayerIndex % PlayerColors.size) { MaterialTheme.colorScheme.primary }
 
-    var selectedColor by remember { mutableStateOf(Color(0xFF212121)) }
-    var selectedStrokeWidth by remember { mutableFloatStateOf(8f) }
-    var measuredCanvasWidth by remember { mutableFloatStateOf(0f) }
-    var measuredCanvasHeight by remember { mutableFloatStateOf(0f) }
-
     val paletteColors = listOf(
         Color(0xFF212121), // Black
         Color(0xFFE53935), // Red
@@ -64,6 +61,20 @@ fun GameScreen(
         Color(0xFFFB8C00), // Orange
         Color(0xFF8E24AA)  // Purple
     )
+
+    var selectedColorIndex by rememberSaveable { mutableIntStateOf(0) }
+    var isEraserSelected by rememberSaveable { mutableStateOf(false) }
+    var isSpenEraserActive by remember { mutableStateOf(false) }
+    val isRubberActive = isEraserSelected || isSpenEraserActive
+
+    LaunchedEffect(currentPlayerIndex) {
+        isEraserSelected = false
+    }
+
+    val selectedColor = paletteColors.getOrElse(selectedColorIndex) { paletteColors[0] }
+    var selectedStrokeWidth by rememberSaveable { mutableFloatStateOf(8f) }
+    var measuredCanvasWidth by rememberSaveable { mutableFloatStateOf(0f) }
+    var measuredCanvasHeight by rememberSaveable { mutableFloatStateOf(0f) }
 
     BackHandler(enabled = true) {
         // Intercept back navigation during active game turn
@@ -180,56 +191,89 @@ fun GameScreen(
                         }
                     }
 
-                    // Drawing Tools Row (Palette & Actions)
+                    // Drawing Tools Row (Palette, Eraser & Actions)
                     Row(
                         modifier = Modifier.fillMaxWidth(),
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.SpaceBetween
                     ) {
-                        // Color palette chips
+                        // Color palette chips and Eraser
                         Row(
-                            horizontalArrangement = Arrangement.spacedBy(8.dp),
+                            horizontalArrangement = Arrangement.spacedBy(6.dp),
                             verticalAlignment = Alignment.CenterVertically
                         ) {
-                            paletteColors.forEach { color ->
-                                val isSelected = selectedColor == color
+                            paletteColors.forEachIndexed { index, color ->
+                                val isSelected = !isRubberActive && selectedColorIndex == index
                                 Box(
                                     modifier = Modifier
-                                        .size(32.dp)
+                                        .size(34.dp)
                                         .clip(CircleShape)
                                         .background(color)
                                         .clickable(enabled = isTurnActive && !isPeeking) {
-                                            selectedColor = color
+                                            isEraserSelected = false
+                                            selectedColorIndex = index
                                         }
                                         .border(
                                             width = if (isSelected) 3.dp else 1.dp,
-                                            color = if (isSelected) MaterialTheme.colorScheme.primary else Color.LightGray,
+                                            color = if (isSelected) MaterialTheme.colorScheme.onSurface else Color.LightGray.copy(alpha = 0.6f),
                                             shape = CircleShape
+                                        ),
+                                    contentAlignment = Alignment.Center
+                                ) {
+                                    if (isSelected) {
+                                        Icon(
+                                            imageVector = Icons.Rounded.Check,
+                                            contentDescription = null,
+                                            tint = if (color == Color(0xFF212121) || color == Color(0xFF1E88E5) || color == Color(0xFF8E24AA) || color == Color(0xFFE53935) || color == Color(0xFF43A047)) Color.White else Color.Black,
+                                            modifier = Modifier.size(18.dp)
                                         )
+                                    }
+                                }
+                            }
+
+                            VerticalDivider(
+                                modifier = Modifier
+                                    .height(24.dp)
+                                    .padding(horizontal = 2.dp)
+                            )
+
+                            // Eraser (Rubber) Button
+                            Box(
+                                modifier = Modifier
+                                    .size(34.dp)
+                                    .clip(CircleShape)
+                                    .background(
+                                        if (isRubberActive) MaterialTheme.colorScheme.primaryContainer
+                                        else MaterialTheme.colorScheme.surfaceVariant
+                                    )
+                                    .clickable(enabled = isTurnActive && !isPeeking) {
+                                        isEraserSelected = !isEraserSelected
+                                    }
+                                    .border(
+                                        width = if (isRubberActive) 2.5.dp else 1.dp,
+                                        color = if (isRubberActive) MaterialTheme.colorScheme.primary else Color.LightGray.copy(alpha = 0.6f),
+                                        shape = CircleShape
+                                    ),
+                                contentAlignment = Alignment.Center
+                            ) {
+                                Icon(
+                                    painter = painterResource(R.drawable.ic_eraser),
+                                    contentDescription = stringResource(R.string.tool_eraser),
+                                    tint = if (isRubberActive) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant,
+                                    modifier = Modifier.size(18.dp)
                                 )
                             }
                         }
 
-                        // Undo and Clear buttons
-                        Row(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
-                            IconButton(
-                                onClick = { viewModel.undoLastLine() },
-                                enabled = isTurnActive && !isPeeking && lines.isNotEmpty()
-                            ) {
-                                Icon(
-                                    imageVector = Icons.AutoMirrored.Rounded.Undo,
-                                    contentDescription = stringResource(R.string.undo_button)
-                                )
-                            }
-                            IconButton(
-                                onClick = { viewModel.clearCanvas() },
-                                enabled = isTurnActive && !isPeeking && lines.isNotEmpty()
-                            ) {
-                                Icon(
-                                    imageVector = Icons.Rounded.DeleteOutline,
-                                    contentDescription = stringResource(R.string.clear_canvas_button)
-                                )
-                            }
+                        // Undo button
+                        IconButton(
+                            onClick = { viewModel.undoLastLine() },
+                            enabled = isTurnActive && !isPeeking && lines.isNotEmpty()
+                        ) {
+                            Icon(
+                                imageVector = Icons.AutoMirrored.Rounded.Undo,
+                                contentDescription = stringResource(R.string.undo_button)
+                            )
                         }
                     }
 
@@ -338,13 +382,19 @@ fun GameScreen(
                 // Interactive Drawing Canvas
                 DrawingCanvas(
                     lines = lines,
-                    onDrawStart = { point ->
+                    onDrawStart = { point, isEraser ->
                         if (isTurnActive && !isPeeking) {
+                            val strokeWidth = if (isEraser) {
+                                GameViewModel.DEFAULT_ERASER_STROKE_WIDTH
+                            } else {
+                                selectedStrokeWidth
+                            }
                             viewModel.addLine(
                                 Line(
                                     points = listOf(point),
-                                    color = selectedColor,
-                                    strokeWidth = selectedStrokeWidth
+                                    color = if (isEraser) Color.Transparent else selectedColor,
+                                    strokeWidth = strokeWidth,
+                                    isEraser = isEraser
                                 )
                             )
                         }
@@ -353,6 +403,11 @@ fun GameScreen(
                         if (isTurnActive && !isPeeking) {
                             viewModel.updateLastLine(point)
                         }
+                    },
+                    isEraserMode = isEraserSelected,
+                    eraserStrokeWidth = GameViewModel.DEFAULT_ERASER_STROKE_WIDTH,
+                    onSpenEraserActiveChanged = { active ->
+                        isSpenEraserActive = active
                     },
                     onCanvasSizeMeasured = { w, h ->
                         measuredCanvasWidth = w

@@ -5,16 +5,21 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.AutoAwesome
 import androidx.compose.material.icons.rounded.Psychology
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -34,7 +39,7 @@ fun GuessScreen(
     val guesserName = viewModel.players.lastOrNull() ?: ""
     val guesserIndex = maxOf(0, viewModel.players.size - 1)
     val avatarColor = PlayerColors.getOrElse(guesserIndex % PlayerColors.size) { MaterialTheme.colorScheme.tertiary }
-    var guess by remember { mutableStateOf("") }
+    var guess by rememberSaveable { mutableStateOf("") }
 
     BackHandler(enabled = true) {
         // Intercept back navigation during guess phase
@@ -77,7 +82,7 @@ fun GuessScreen(
                 Column(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .navigationBarsPadding()
+                        .windowInsetsPadding(WindowInsets.safeDrawing.only(WindowInsetsSides.Bottom))
                         .padding(16.dp),
                     verticalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
@@ -111,7 +116,7 @@ fun GuessScreen(
                 }
             }
         },
-        modifier = modifier.fillMaxSize()
+        modifier = modifier.fillMaxSize().imePadding()
     ) { innerPadding ->
         Column(
             modifier = Modifier
@@ -182,6 +187,18 @@ fun GuessScreen(
                 label = { Text(stringResource(R.string.guess_label)) },
                 modifier = Modifier.fillMaxWidth(),
                 singleLine = true,
+                keyboardOptions = KeyboardOptions(
+                    capitalization = KeyboardCapitalization.Sentences,
+                    imeAction = ImeAction.Done
+                ),
+                keyboardActions = KeyboardActions(
+                    onDone = {
+                        if (guess.isNotBlank()) {
+                            viewModel.setFinalGuess(guess)
+                            onGuessSubmitted()
+                        }
+                    }
+                ),
                 shape = RoundedCornerShape(16.dp),
                 textStyle = MaterialTheme.typography.titleLarge.copy(textAlign = TextAlign.Center),
                 colors = OutlinedTextFieldDefaults.colors(
