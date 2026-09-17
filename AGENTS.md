@@ -24,7 +24,7 @@ Context and quick-start guide for AI agents and developers working on the What T
 ## 2. Tech Stack & Environment
 
 - **Language:** Kotlin 2.x
-- **Compatibility:** Java 11 bytecode (`JavaVersion.VERSION_11`)
+- **Compatibility:** Java 17 bytecode (`JavaVersion.VERSION_17`)
 - **Android SDK:**
   - `minSdk`: 26
   - `compileSdk`: 37
