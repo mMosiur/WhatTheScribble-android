@@ -1,4 +1,4 @@
-package com.mmosiur.whatthescribble.ui.theme
+package pl.mmorus.whatthescribble.ui.theme
 
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme

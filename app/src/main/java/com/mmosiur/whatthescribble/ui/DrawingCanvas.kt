@@ -1,4 +1,4 @@
-package com.mmosiur.whatthescribble.ui
+package pl.mmorus.whatthescribble.ui
 
 import android.view.MotionEvent
 import androidx.compose.foundation.BorderStroke

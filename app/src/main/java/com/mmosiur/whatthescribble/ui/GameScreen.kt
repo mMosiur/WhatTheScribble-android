@@ -1,4 +1,4 @@
-package com.mmosiur.whatthescribble.ui
+package pl.mmorus.whatthescribble.ui
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedVisibility
@@ -28,10 +28,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import com.mmosiur.whatthescribble.R
-import com.mmosiur.whatthescribble.ui.theme.PlayerColors
-import com.mmosiur.whatthescribble.ui.theme.WhatTheScribbleTheme
+import pl.mmorus.whatthescribble.R
+import pl.mmorus.whatthescribble.ui.theme.PlayerColors
+import pl.mmorus.whatthescribble.ui.theme.WhatTheScribbleTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

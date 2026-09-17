@@ -1,4 +1,4 @@
-package com.mmosiur.whatthescribble
+package pl.mmorus.whatthescribble
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -8,9 +8,9 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation3.runtime.NavEntry
 import androidx.navigation3.runtime.rememberNavBackStack
 import androidx.navigation3.ui.NavDisplay
-import com.mmosiur.whatthescribble.navigation.AppNavKey
-import com.mmosiur.whatthescribble.ui.*
-import com.mmosiur.whatthescribble.ui.theme.WhatTheScribbleTheme
+import pl.mmorus.whatthescribble.navigation.AppNavKey
+import pl.mmorus.whatthescribble.ui.*
+import pl.mmorus.whatthescribble.ui.theme.WhatTheScribbleTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

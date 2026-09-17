@@ -1,8 +1,8 @@
-package com.mmosiur.whatthescribble.ui
+package pl.mmorus.whatthescribble.ui
 
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
-import com.mmosiur.whatthescribble.data.TimingPreferencesRepository
+import pl.mmorus.whatthescribble.data.TimingPreferencesRepository
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertNotNull

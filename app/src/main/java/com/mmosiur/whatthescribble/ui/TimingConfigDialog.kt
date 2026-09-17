@@ -1,4 +1,4 @@
-package com.mmosiur.whatthescribble.ui
+package pl.mmorus.whatthescribble.ui
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
@@ -10,7 +10,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.mmosiur.whatthescribble.R
+import pl.mmorus.whatthescribble.R
 
 @Composable
 fun TimingSettingsContent(

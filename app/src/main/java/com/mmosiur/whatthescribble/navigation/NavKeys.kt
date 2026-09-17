@@ -1,4 +1,4 @@
-package com.mmosiur.whatthescribble.navigation
+package pl.mmorus.whatthescribble.navigation
 
 import androidx.navigation3.runtime.NavKey
 import kotlinx.serialization.Serializable

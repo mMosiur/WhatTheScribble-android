@@ -1,4 +1,4 @@
-package com.mmosiur.whatthescribble.data
+package pl.mmorus.whatthescribble.data
 
 import android.content.Context
 import android.content.SharedPreferences

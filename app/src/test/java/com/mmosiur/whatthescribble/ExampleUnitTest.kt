@@ -1,4 +1,4 @@
-package com.mmosiur.whatthescribble
+package pl.mmorus.whatthescribble
 
 import org.junit.Test
 

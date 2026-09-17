@@ -1,4 +1,4 @@
-package com.mmosiur.whatthescribble.ui
+package pl.mmorus.whatthescribble.ui
 
 import android.content.Context
 import androidx.compose.runtime.State
@@ -10,8 +10,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import com.mmosiur.whatthescribble.data.SharedPreferencesTimingPreferencesRepository
-import com.mmosiur.whatthescribble.data.TimingPreferencesRepository
+import pl.mmorus.whatthescribble.data.SharedPreferencesTimingPreferencesRepository
+import pl.mmorus.whatthescribble.data.TimingPreferencesRepository
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch

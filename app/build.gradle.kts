@@ -6,13 +6,13 @@ plugins {
 }
 
 android {
-    namespace = "com.mmosiur.whatthescribble"
+    namespace = "pl.mmorus.whatthescribble"
     compileSdk {
         version = release(37)
     }
 
     defaultConfig {
-        applicationId = "com.mmosiur.whatthescribble"
+        applicationId = "pl.mmorus.whatthescribble"
         minSdk = 26
         targetSdk = 37
         versionCode = 1

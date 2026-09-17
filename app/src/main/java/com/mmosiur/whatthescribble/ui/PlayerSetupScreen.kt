@@ -1,4 +1,4 @@
-package com.mmosiur.whatthescribble.ui
+package pl.mmorus.whatthescribble.ui
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
@@ -27,17 +27,17 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.mmosiur.whatthescribble.R
-import com.mmosiur.whatthescribble.ui.theme.PlayerColors
-import com.mmosiur.whatthescribble.ui.theme.WhatTheScribbleTheme
+import pl.mmorus.whatthescribble.R
+import pl.mmorus.whatthescribble.ui.theme.PlayerColors
+import pl.mmorus.whatthescribble.ui.theme.WhatTheScribbleTheme
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
 @Composable
 fun PlayerSetupScreen(
+    modifier: Modifier = Modifier,
     viewModel: GameViewModel,
     onStartGame: () -> Unit,
-    onBack: () -> Unit = {},
-    modifier: Modifier = Modifier
+    onBack: () -> Unit = {}
 ) {
     var playerName by rememberSaveable { mutableStateOf("") }
     var showTimingDialog by rememberSaveable { mutableStateOf(false) }
