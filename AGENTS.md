@@ -51,7 +51,7 @@ S:\WhatTheScribble\android\
     └── src/
         ├── main/
         │   ├── AndroidManifest.xml
-        │   ├── java/com/mmosiur/whatthescribble/
+        │   ├── java/pl/mmorus/whatthescribble/
         │   │   ├── MainActivity.kt    # Entry Activity, edge-to-edge, NavDisplay host
         │   │   ├── data/
         │   │   │   └── TimingPreferencesRepository.kt # Persistent timing preferences (SharedPreferences)
@@ -74,7 +74,7 @@ S:\WhatTheScribble\android\
         │           ├── colors.xml
         │           └── themes.xml
         └── test/
-            └── java/com/mmosiur/whatthescribble/ui/
+            └── java/pl/mmorus/whatthescribble/ui/
                 └── GameViewModelTest.kt      # Unit tests for game logic & sanitization
 ```
 

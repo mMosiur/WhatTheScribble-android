@@ -25,7 +25,7 @@ class MainActivity : ComponentActivity() {
 
                 NavDisplay(
                     backStack = backStack,
-                    onBack = { 
+                    onBack = {
                         if (backStack.size > 1) {
                             backStack.removeLastOrNull()
                         } else {
