@@ -27,7 +27,7 @@ android {
             val keystoreBase64 = System.getenv("KEYSTORE_BASE64")
             if (!keystoreBase64.isNullOrEmpty()) {
                 // CI Pipeline path (we will decode the secret into this file in the script)
-                storeFile = file("${rootProject.layout.buildDirectory}/release.jks")
+                storeFile = rootProject.file("build/release.jks")
                 storePassword = System.getenv("RELEASE_KEYSTORE_PASSWORD")
                 keyAlias = System.getenv("RELEASE_KEY_ALIAS")
                 keyPassword = System.getenv("RELEASE_KEY_PASSWORD")
