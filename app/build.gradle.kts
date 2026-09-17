@@ -21,6 +21,26 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    signingConfigs {
+        create("release") {
+            // Read from environment variables if present (CI), otherwise use local fallback
+            val keystoreBase64 = System.getenv("KEYSTORE_BASE64")
+            if (!keystoreBase64.isNullOrEmpty()) {
+                // CI Pipeline path (we will decode the secret into this file in the script)
+                storeFile = file("${rootProject.layout.buildDirectory}/release.jks")
+                storePassword = System.getenv("RELEASE_KEYSTORE_PASSWORD")
+                keyAlias = System.getenv("RELEASE_KEY_ALIAS")
+                keyPassword = System.getenv("RELEASE_KEY_PASSWORD")
+            } else {
+                // Local fallback: use the standard auto-generated debug keystore in the user profile directory
+                storeFile = file(System.getProperty("user.home") + "/.android/debug.keystore")
+                storePassword = "android"
+                keyAlias = "androiddebugkey"
+                keyPassword = "android"
+            }
+        }
+    }
+
     buildTypes {
         release {
             optimization {
